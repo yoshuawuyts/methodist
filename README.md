@@ -30,7 +30,7 @@ server.listen(1337)
 ```
 
 ## API
-### methodist(req, routes)
+### methodist(method, routes)
 Call a callback based on `method` or `req.method`. Routes is an object where
 the keys are one of [methods](https://github.com/jshttp/methods), `all` or
 `any`. `all` and `any` are checked before other methods. Methods are normalized
