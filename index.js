@@ -1,22 +1,25 @@
 const methods = require('methods')
 const assert = require('assert')
+const curry = require('curry')
 
 const meths = methods.concat(['any', 'all'])
 
-module.exports = methodist
+module.exports = curry(methodist)
 
 // Call a callback based on `method`
 // (obj, obj) -> fn
-function methodist (method, routes) {
+function methodist (method, defaultFn, routes) {
   method = typeof method === 'object' ? method.method : method
   if (typeof method === 'string') method = method.toLowerCase()
+  defaultFn = defaultFn.default ? defaultFn.default : defaultFn
   routes = routes || {}
   assertKeys(routes)
 
   return function () {
+    if (routes[method]) return routes[method](arguments)
     if (routes['any']) return routes['any'](arguments)
     if (routes['all']) return routes['all'](arguments)
-    routes[method] && routes[method](arguments)
+    defaultFn(arguments)
   }
 }
 

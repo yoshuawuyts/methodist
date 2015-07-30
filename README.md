@@ -18,9 +18,11 @@ const methodist = require('methodist')
 const wayfarer = require('wayfarer')
 const http = require('http')
 
-const router = wayfarer()
 const server = http.createServer((req, res) => {
-  router.on('/hello', methodist(req, {
+  const router = wayfarer()
+  const method = metdodist(req, router)
+
+  router.on('/hello', method({
     all: params => console.log('any route matches'),
     get: params => console.log('get')
   }))
@@ -30,11 +32,18 @@ server.listen(1337)
 ```
 
 ## API
-### methodist(method, routes)
-Call a callback based on `method` or `req.method`. Routes is an object where
+### methodist(method, default, routes)
+Uses [curry](https://github.com/dominictarr/curry) to allow reusable
+constuctors.
+- __method__: methods are either an HTTP verb or
+  [`http.ClientRequest`](https://iojs.org/api/http.html#http_class_http_clientrequest)
+  class. Methods are lowercased before matched.
+- __default__: `default()` is called if no methods match. Checks if
+  `default.default()` exists for easy integration with
+  [wayfarer](https://github.com/yoshuawuyts/wayfarer).
+- __routes__: Routes is an object where
 the keys are one of [methods](https://github.com/jshttp/methods), `all` or
-`any`. `all` and `any` are checked before other methods. Methods are normalized
-to lowercase.
+`any`. `all` and `any` are called if no other method matches.
 
 ## See Also
 - [wayfarer](https://github.com/yoshuawuyts/wayfarer)
