@@ -20,7 +20,7 @@ const http = require('http')
 
 const server = http.createServer((req, res) => {
   const router = wayfarer()
-  const method = metdodist(req, router)
+  const method = methodist(req, router)
 
   router.on('/hello', method({
     all: params => console.log('any route matches'),
