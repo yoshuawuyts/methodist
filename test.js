@@ -4,7 +4,15 @@ const test = require('tape')
 
 test('should throw if unknown method is bound', function (t) {
   t.plan(1)
-  t.throws(methodist.bind(null, {}, noop, { foo: 'bar'}), /invalid method/)
+  t.throws(methodist.bind(null, '', noop, { foo: 'bar' }), /invalid method/)
+})
+
+test('should assert input types', function (t) {
+  t.plan(3)
+  methodist()
+  t.throws(methodist.bind(null, {}, noop, {}), /string/)
+  t.throws(methodist.bind(null, '', '', {}), /function/)
+  t.throws(methodist.bind(null, '', noop, ''), /object/)
 })
 
 test('should be curried', function (t) {
@@ -23,8 +31,8 @@ test('should be curried', function (t) {
 test('should always match any or all', function (t) {
   t.plan(2)
 
-  const r1 = methodist({}, noop, { all: callFn })
-  const r2 = methodist({}, noop, { any: callFn })
+  const r1 = methodist('', noop, { all: callFn })
+  const r2 = methodist('', noop, { any: callFn })
   r1()
   r2()
 
