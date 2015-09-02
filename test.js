@@ -77,13 +77,16 @@ test('should lowercase argument names', function (t) {
 })
 
 test('should default to defaultFn', function (t) {
-  t.plan(2)
+  t.plan(3)
 
   const r1 = methodist('GET', defaultFn, {})
   r1()
 
   const r2 = methodist('GET', { default: defaultFn }, {})
   r2()
+
+  const r3 = methodist('GET', { _default: defaultFn }, {})
+  r3()
 
   function defaultFn () {
     t.pass('called')

@@ -14,6 +14,7 @@ function methodist (method, defaultFn, routes) {
   method = method.toLowerCase()
 
   if (defaultFn && defaultFn.default) defaultFn = defaultFn.default
+  if (defaultFn && defaultFn._default) defaultFn = defaultFn._default
   assert.equal(typeof defaultFn, 'function')
 
   assert.equal(typeof routes, 'object')
